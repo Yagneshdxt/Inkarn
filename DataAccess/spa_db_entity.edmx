@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="spa_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategeogySubCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parentId" Type="bigint" />
+          <Property Name="name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="subheading" Type="varchar" MaxLength="500" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="updated_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="citys">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="zipcode" Type="varchar" MaxLength="20" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="updated_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="price_range">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="price_range_name" Type="varchar" MaxLength="500" />
+          <Property Name="min_price" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="max_price" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="description" Type="varchar" MaxLength="1000" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="update_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="spa_basic_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="cityId" Type="bigint" />
+          <Property Name="info_about" Type="varchar(max)" />
+          <Property Name="website_url" Type="varchar" MaxLength="500" />
+          <Property Name="address" Type="varchar" MaxLength="2000" />
+          <Property Name="zipcode" Type="varchar" MaxLength="20" />
+          <Property Name="contact_name" Type="varchar" MaxLength="100" />
+          <Property Name="contact_email" Type="varchar" MaxLength="500" />
+          <Property Name="contact_no" Type="varchar" MaxLength="100" />
+          <Property Name="is_active" Type="bit" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="updated_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="spa_images">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="spa_id" Type="bigint" Nullable="false" />
+          <Property Name="image_url" Type="varchar(max)" Nullable="false" />
+          <Property Name="seq_no" Type="int" />
+          <Property Name="is_default" Type="bit" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="updated_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="spa_prices">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="spa_id" Type="bigint" Nullable="false" />
+          <Property Name="cat_id" Type="bigint" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="updated_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="spa_time">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="spa_id" Type="bigint" Nullable="false" />
+          <Property Name="week_day" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="start_time" Type="time" Precision="7" />
+          <Property Name="end_time" Type="time" Precision="7" />
+          <Property Name="frm_to_times" Type="varchar" MaxLength="200" />
+          <Property Name="isclosed" Type="bit" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="updated_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_spa_basic_info_citys">
+          <End Role="citys" Type="Self.citys" Multiplicity="0..1" />
+          <End Role="spa_basic_info" Type="Self.spa_basic_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="citys">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_basic_info">
+              <PropertyRef Name="cityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spa_images_spa_images">
+          <End Role="spa_basic_info" Type="Self.spa_basic_info" Multiplicity="1" />
+          <End Role="spa_images" Type="Self.spa_images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="spa_basic_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_images">
+              <PropertyRef Name="spa_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spa_prices_CategeogySubCategory">
+          <End Role="CategeogySubCategory" Type="Self.CategeogySubCategory" Multiplicity="1" />
+          <End Role="spa_prices" Type="Self.spa_prices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategeogySubCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_prices">
+              <PropertyRef Name="cat_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spa_prices_spa_basic_info">
+          <End Role="spa_basic_info" Type="Self.spa_basic_info" Multiplicity="1" />
+          <End Role="spa_prices" Type="Self.spa_prices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="spa_basic_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_prices">
+              <PropertyRef Name="spa_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spa_time_spa_basic_info">
+          <End Role="spa_basic_info" Type="Self.spa_basic_info" Multiplicity="1" />
+          <End Role="spa_time" Type="Self.spa_time" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="spa_basic_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_time">
+              <PropertyRef Name="spa_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="spa_dbModelStoreContainer">
+          <EntitySet Name="CategeogySubCategory" EntityType="Self.CategeogySubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="citys" EntityType="Self.citys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="price_range" EntityType="Self.price_range" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="spa_basic_info" EntityType="Self.spa_basic_info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="spa_images" EntityType="Self.spa_images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="spa_prices" EntityType="Self.spa_prices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="spa_time" EntityType="Self.spa_time" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_spa_basic_info_citys" Association="Self.FK_spa_basic_info_citys">
+            <End Role="citys" EntitySet="citys" />
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spa_images_spa_images" Association="Self.FK_spa_images_spa_images">
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+            <End Role="spa_images" EntitySet="spa_images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spa_prices_CategeogySubCategory" Association="Self.FK_spa_prices_CategeogySubCategory">
+            <End Role="CategeogySubCategory" EntitySet="CategeogySubCategory" />
+            <End Role="spa_prices" EntitySet="spa_prices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spa_prices_spa_basic_info" Association="Self.FK_spa_prices_spa_basic_info">
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+            <End Role="spa_prices" EntitySet="spa_prices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spa_time_spa_basic_info" Association="Self.FK_spa_time_spa_basic_info">
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+            <End Role="spa_time" EntitySet="spa_time" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="spa_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="zipcode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="spa_basic_info" Relationship="spa_dbModel.FK_spa_basic_info_citys" FromRole="city" ToRole="spa_basic_info" />
+        </EntityType>
+        <EntityContainer Name="spa_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="citys" EntityType="Self.city" />
+          <EntitySet Name="CategeogySubCategories" EntityType="spa_dbModel.CategeogySubCategory" />
+          <EntitySet Name="spa_basic_info" EntityType="spa_dbModel.spa_basic_info" />
+          <AssociationSet Name="FK_spa_basic_info_citys" Association="spa_dbModel.FK_spa_basic_info_citys">
+            <End Role="city" EntitySet="citys" />
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+          </AssociationSet>
+          <EntitySet Name="spa_images" EntityType="spa_dbModel.spa_images" />
+          <EntitySet Name="spa_time" EntityType="spa_dbModel.spa_time" />
+          <AssociationSet Name="FK_spa_images_spa_images" Association="spa_dbModel.FK_spa_images_spa_images">
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+            <End Role="spa_images" EntitySet="spa_images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spa_time_spa_basic_info" Association="spa_dbModel.FK_spa_time_spa_basic_info">
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+            <End Role="spa_time" EntitySet="spa_time" />
+          </AssociationSet>
+          <EntitySet Name="price_range" EntityType="spa_dbModel.price_range" />
+          <EntitySet Name="spa_prices" EntityType="spa_dbModel.spa_prices" />
+          <AssociationSet Name="FK_spa_prices_CategeogySubCategory" Association="spa_dbModel.FK_spa_prices_CategeogySubCategory">
+            <End Role="CategeogySubCategory" EntitySet="CategeogySubCategories" />
+            <End Role="spa_prices" EntitySet="spa_prices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spa_prices_spa_basic_info" Association="spa_dbModel.FK_spa_prices_spa_basic_info">
+            <End Role="spa_basic_info" EntitySet="spa_basic_info" />
+            <End Role="spa_prices" EntitySet="spa_prices" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CategeogySubCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="parentId" Type="Int64" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="subheading" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="spa_prices" Relationship="spa_dbModel.FK_spa_prices_CategeogySubCategory" FromRole="CategeogySubCategory" ToRole="spa_prices" />
+        </EntityType>
+        <EntityType Name="spa_basic_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="cityId" Type="Int64" />
+          <Property Name="info_about" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="website_url" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="is_active" Type="Boolean" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="city" Relationship="spa_dbModel.FK_spa_basic_info_citys" FromRole="spa_basic_info" ToRole="city" />
+          <NavigationProperty Name="spa_images" Relationship="spa_dbModel.FK_spa_images_spa_images" FromRole="spa_basic_info" ToRole="spa_images" />
+          <NavigationProperty Name="spa_time" Relationship="spa_dbModel.FK_spa_time_spa_basic_info" FromRole="spa_basic_info" ToRole="spa_time" />
+          <Property Name="contact_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="contact_email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="contact_no" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="spa_prices" Relationship="spa_dbModel.FK_spa_prices_spa_basic_info" FromRole="spa_basic_info" ToRole="spa_prices" />
+          <Property Name="zipcode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_spa_basic_info_citys">
+          <End Type="spa_dbModel.city" Role="city" Multiplicity="0..1" />
+          <End Type="spa_dbModel.spa_basic_info" Role="spa_basic_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_basic_info">
+              <PropertyRef Name="cityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="spa_images">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="spa_id" Type="Int64" Nullable="false" />
+          <Property Name="image_url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="seq_no" Type="Int32" />
+          <Property Name="is_default" Type="Boolean" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="spa_basic_info" Relationship="spa_dbModel.FK_spa_images_spa_images" FromRole="spa_images" ToRole="spa_basic_info" />
+        </EntityType>
+        <EntityType Name="spa_time">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="spa_id" Type="Int64" Nullable="false" />
+          <Property Name="week_day" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="start_time" Type="Time" Precision="7" />
+          <Property Name="end_time" Type="Time" Precision="7" />
+          <Property Name="isclosed" Type="Boolean" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="spa_basic_info" Relationship="spa_dbModel.FK_spa_time_spa_basic_info" FromRole="spa_time" ToRole="spa_basic_info" />
+          <Property Name="frm_to_times" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_spa_images_spa_images">
+          <End Type="spa_dbModel.spa_basic_info" Role="spa_basic_info" Multiplicity="1" />
+          <End Type="spa_dbModel.spa_images" Role="spa_images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="spa_basic_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_images">
+              <PropertyRef Name="spa_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spa_time_spa_basic_info">
+          <End Type="spa_dbModel.spa_basic_info" Role="spa_basic_info" Multiplicity="1" />
+          <End Type="spa_dbModel.spa_time" Role="spa_time" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="spa_basic_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_time">
+              <PropertyRef Name="spa_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="price_range">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="price_range_name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="min_price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="max_price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="update_at" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="spa_prices">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="spa_id" Type="Int64" Nullable="false" />
+          <Property Name="cat_id" Type="Int64" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CategeogySubCategory" Relationship="spa_dbModel.FK_spa_prices_CategeogySubCategory" FromRole="spa_prices" ToRole="CategeogySubCategory" />
+          <NavigationProperty Name="spa_basic_info" Relationship="spa_dbModel.FK_spa_prices_spa_basic_info" FromRole="spa_prices" ToRole="spa_basic_info" />
+        </EntityType>
+        <Association Name="FK_spa_prices_CategeogySubCategory">
+          <End Type="spa_dbModel.CategeogySubCategory" Role="CategeogySubCategory" Multiplicity="1" />
+          <End Type="spa_dbModel.spa_prices" Role="spa_prices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategeogySubCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_prices">
+              <PropertyRef Name="cat_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spa_prices_spa_basic_info">
+          <End Type="spa_dbModel.spa_basic_info" Role="spa_basic_info" Multiplicity="1" />
+          <End Type="spa_dbModel.spa_prices" Role="spa_prices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="spa_basic_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="spa_prices">
+              <PropertyRef Name="spa_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="spa_dbModelStoreContainer" CdmEntityContainer="spa_dbEntities">
+          <EntitySetMapping Name="citys">
+            <EntityTypeMapping TypeName="spa_dbModel.city">
+              <MappingFragment StoreEntitySet="citys">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="zipcode" ColumnName="zipcode" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategeogySubCategories">
+            <EntityTypeMapping TypeName="spa_dbModel.CategeogySubCategory">
+              <MappingFragment StoreEntitySet="CategeogySubCategory">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="subheading" ColumnName="subheading" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="spa_basic_info">
+            <EntityTypeMapping TypeName="spa_dbModel.spa_basic_info">
+              <MappingFragment StoreEntitySet="spa_basic_info">
+                <ScalarProperty Name="zipcode" ColumnName="zipcode" />
+                <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+                <ScalarProperty Name="contact_email" ColumnName="contact_email" />
+                <ScalarProperty Name="contact_name" ColumnName="contact_name" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="website_url" ColumnName="website_url" />
+                <ScalarProperty Name="info_about" ColumnName="info_about" />
+                <ScalarProperty Name="cityId" ColumnName="cityId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="spa_images">
+            <EntityTypeMapping TypeName="spa_dbModel.spa_images">
+              <MappingFragment StoreEntitySet="spa_images">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="is_default" ColumnName="is_default" />
+                <ScalarProperty Name="seq_no" ColumnName="seq_no" />
+                <ScalarProperty Name="image_url" ColumnName="image_url" />
+                <ScalarProperty Name="spa_id" ColumnName="spa_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="spa_time">
+            <EntityTypeMapping TypeName="spa_dbModel.spa_time">
+              <MappingFragment StoreEntitySet="spa_time">
+                <ScalarProperty Name="frm_to_times" ColumnName="frm_to_times" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="isclosed" ColumnName="isclosed" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="week_day" ColumnName="week_day" />
+                <ScalarProperty Name="spa_id" ColumnName="spa_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="price_range">
+            <EntityTypeMapping TypeName="spa_dbModel.price_range">
+              <MappingFragment StoreEntitySet="price_range">
+                <ScalarProperty Name="update_at" ColumnName="update_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="max_price" ColumnName="max_price" />
+                <ScalarProperty Name="min_price" ColumnName="min_price" />
+                <ScalarProperty Name="price_range_name" ColumnName="price_range_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="spa_prices">
+            <EntityTypeMapping TypeName="spa_dbModel.spa_prices">
+              <MappingFragment StoreEntitySet="spa_prices">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="cat_id" ColumnName="cat_id" />
+                <ScalarProperty Name="spa_id" ColumnName="spa_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

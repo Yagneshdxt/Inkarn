@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DataAccess.CategeogySubCategory>
+
+    <h4>Category List</h4>
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-lg" })
+    </p>
+  
+
+<div class="table table-responsive">
+    <table id="cityLst">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sub Heading</th>
+                <th>Description</th>
+                <th>Active/Deactive</th>
+                <th>Created Date</th>
+                <th>Updated Date</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        var theGrid = null;
+        $(document).ready(function () {
+            theGrid = $("#cityLst").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ordering": true,
+                "responsive": false,
+                "autoWidth": false,
+                "ajax": { "url": '@Url.Action("GetCategoryLst", "CatSubCat")', "type": "post", "datatype": "json" },
+                "columnDefs": [
+                    {
+                        "targets": 0,
+                        "visible": true,
+                        "searchable": true,
+                        "class":"never"
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="@Url.Action("Edit", "CatSubCat")/'+row.id+'">Edit</a> | <a href="@Url.Action("Details", "CatSubCat")/'+row.id+'">Details</a> | <a href="@Url.Action("Delete", "CatSubCat")/'+row.id+'">Delete</a>';
+                        },
+                        "sortable": false,
+                        "targets": 6
+                    }
+                ],
+                "columns" : [
+                       { "data": "name", "autoWidth": true },
+                       { "data": "subheading", "autoWidth": true },
+                       { "data": "description", "autoWidth": true },
+                       { "data": "isActive", "autoWidth": true },
+                       {
+                           "data": "created_at", "autoWidth": true, "render": function (data, type, row) {
+                               /*var date = new Date(parseInt(data.substr(6), 0));
+                               return ISODateString(date);*/
+                               return row.created_at;
+                           }
+                       },
+                       { "data": "updated_at", "autoWidth": true }
+                ]
+            });
+        });
+    </script>
+}
+

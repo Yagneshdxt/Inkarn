@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Inkarn :: Find the best prices near you</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="shortcut icon" href="images/favicon-inkarn.ico" type="image/x-icon" />
+    @Styles.Render("~/Content/TheamOnecss")
+    @RenderSection("stylesSection", required: false)
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#myPage">
+                    <div class="i-desk-logo-wrap">
+                        <div class="i-desk-logo">
+                            <span class="i-logo-txt">Inkarn</span>
+                            <span class="i-slogan">Find the best prices near you</span>
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+                    </li>
+                    <li><a href="#aboutus">About Us</a></li>
+                    <li><a href="#contactus">Contact Us</a></li>
+                    @Html.Partial("_LoginPartial")
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+    <div class="container-fluid i-bor-top6">
+        <footer>
+            <div class="row slideanim">
+                <div class="col-md-6 col-md-push-6">
+                    <!-- Contact Form START -->
+                    <div id="contact" class="i-contact-form">
+                        <h4>Give A Feedback</h4>
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <textarea class="form-control" id="comments" name="comments" placeholder="Write Your Comment Here ..." rows="5"></textarea>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <button class="btn btn-warning pull-left" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Contact Form END -->
+                </div>
+                <div class="col-md-6 col-md-pull-6 i-footer-link">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <h4>Corporate</h4>
+                            <ul>
+                                <li><a href="javascript:void();" title="About us">About us</a></li>
+                                <li><a href="javascript:void();" title="Contact us">Contact us</a></li>
+                                <li><a href="javascript:void();" title="Terms & Conditions">Terms & Conditions</a></li>
+                                <li><a href="javascript:void();" title="Privacy policy">Privacy policy</a></li>
+                                <li><a href="javascript:void();" title="Copyright policy">Copyright policy</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-6">
+                            @*<h4>Top Cities</h4>
+                            <ul>
+                                <li><a href="javascript:void();" title="Chicago">Chicago</a></li>
+                                <li><a href="javascript:void();" title="Atlanta, GA">Atlanta, GA</a></li>
+                                <li><a href="javascript:void();" title="Detroit, MI">Detroit, MI</a></li>
+                                <li><a href="javascript:void();" title="New York, NY">New York, NY</a></li>
+                                <li><a href="javascript:void();" title="Newark, NJ">Newark, NJ</a></li>
+                            </ul>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--  <a href="#myPage" title="To Top">
+               <span class="glyphicon glyphicon-chevron-up"></span>
+             </a> -->
+
+            <div class="i-copyright-txt text-center">
+                &copy; Copyright
+                <script language='javascript'>var yy = (new Date()).getYear(); var year = (yy < 1000) ? yy + 1900 : yy; document.write("" + year);</script> By Inkarn. All Rights Reserved.
+            </div>
+        </footer>
+    </div>
+    @Scripts.Render("~/TheamOneJs")
+    @RenderSection("scripts", required: false)
+    @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJIXNIZ_V67NBD98AB-VU5x5mBGAbREHY&libraries=places"></script>*@
+    <script>
+        $(document).ready(function () {
+            // Add smooth scrolling to all links in navbar + footer link
+            $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 900, function () {
+
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+
+            $(window).scroll(function () {
+                $(".slideanim").each(function () {
+                    var pos = $(this).offset().top;
+
+                    var winTop = $(window).scrollTop();
+                    if (pos < winTop + 600) {
+                        $(this).addClass("fademein");
+                    }
+                });
+            });
+            $('.selectpicker').selectpicker({
+                style: 'btn-info',
+                size: false
+            });
+
+            $(".searchCat").change(function () {
+                if ($(this).val() != '') {
+                    $("#drdwSubCat option").remove();
+                    $("#drdwSubCat").append("<option value=''>Sub Category</option>");
+                    $("#drdwSubCat").selectpicker('refresh');
+                    $.ajax({
+                        url: '@Url.Action("GetSubCategoryDrDw", "Home", new { area = "" })',
+                        type: 'POST',
+                        data: { cat_id: $(this).val() }
+                    }).done(function (data) {
+                        $.each(data, function (i, d) {
+                            $("#drdwSubCat").append('<option value="' + d.Value + '">' +
+                                 d.Text + '</option>');
+                        });
+                        $("#drdwSubCat").selectpicker('refresh');
+                    }).fail(function () {
+                        alert("There is something wrong. Please try again.");
+                    })
+                }
+            });
+            
+            $("#searchSubmit").click(function (e) {
+                e.preventDefault();
+                var errmsg = "";
+                //if($("#SelectedcityId").val() == "" || $("#SelectedcityId").val() == 0){
+                //    errmsg = errmsg + "Please select City \n";
+                //}
+                if ($.trim($("#zipCode").val()) == "") {
+                    $("#zipCode").val('');
+                    errmsg = errmsg + "Please enter Zip Code \n";
+                }
+                if($("#SelectedCateId").val() == "" || $("#SelectedCateId").val() == 0){
+                    //errmsg = errmsg + "Please select Category \n";
+                }
+                if ($("#SelectedCateId").val() != "" && ($("#drdwSubCat").val() == "" || $("#drdwSubCat").val() == 0)) {
+                    errmsg = errmsg + "Please select Sub Category \n";
+                }
+                if (errmsg != "") {
+                    alert(errmsg);
+                    return false;
+                }
+                $("#searchSubmit").unbind('click').click();
+                return true;
+            });
+        })
+    </script>
+
+</body>
+</html>

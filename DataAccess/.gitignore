@@ -1,0 +1,6 @@
+*.zip
+*.vs
+bin
+obj
+*.txt
+aspnet_client

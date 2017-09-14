@@ -1,0 +1,155 @@
+﻿@model code.Models.SearchReasult_VM
+@{
+    ViewBag.Title = "Spa Details";
+}
+<div class="jumbotron i-inside-banner text-center">
+    <div class="i-banner-form">
+        <div class="i-desk-logo-wrap">
+            <div class="i-desk-logo">nkarn</div>
+        </div>
+        @using (Html.BeginForm("Index", "Search", FormMethod.Post, htmlAttributes: new { @id = "SerPageSrcForm" }))
+        {
+            Html.RenderAction("SearchPanelPages", "Home", new { model = Model.SearchParam });
+            @Html.Hidden("page", "1")
+        }
+
+    </div>
+</div>
+
+<div class="container-fluid i-grey-bg i-detail-panel-wrap">
+    @for (int i = 0; i < @Model.SpaListWithPrice.Count; i++)
+    {
+        <div class="i-search-list-wrap">
+            <div class="i-search-tlt-wrap">
+                <h2 class="i-icon-page-tlt">
+                    <span class="i-tlt-icon-box i-icon-hair-removal"></span>
+                    @Model.SpaListWithPrice[i].categoryName
+                    <span class="i-icon-sub-tlt">@Model.SpaListWithPrice[i].cityName @Model.SpaListWithPrice[i].cityDescription </span>
+                </h2>
+            </div>
+
+            <div class="i-search-tile">
+                <div class="i-spa-img-detail">
+                    <div class="i-image-gallery">
+                        <div class="i-img-count">
+                            <div class="i-icon-camera"></div>
+                            @Model.SpaListWithPrice[i].imgUrlLst.Count
+                        </div>
+                        <div class="owl-carousel owl-theme">
+                            @foreach (var item in @Model.SpaListWithPrice[i].imgUrlLst)
+                            {
+                                <div class="item"><img src="@Url.Content(item)" width="468" height="387" /></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="i-spa-detail">
+                        <div class="i-spa-detail-pad">
+                            <div class="i-amt-fix-panel">
+                                <div class="row i-tlt-mar">
+                                    <div class="col-md-12">
+                                        <h3>@Model.SpaListWithPrice[i].name</h3>
+                                    </div>
+                                </div>
+                                <div class="i-amt-text text-center">
+                                    @if (@Model.SpaListWithPrice[i].spa_price != null)
+                                    {
+                                        <span class="i-dollar-sign">$</span> <span class="i-amt">@Model.SpaListWithPrice[i].spa_price</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="i-search-tile-info">
+                                <div class="i-search-info i-bot-border">
+                                    <div class="i-info-wrap">
+                                        <div class="row i-row-mar-30">
+                                            <div class="col-xs-12">
+                                                <p class="i-note-txt i-bot-border">&nbsp;</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="i-cust-col-7">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="i-icon-panel-wrap">
+                                                            <div class="i-icon-map"></div>
+                                                            @Model.SpaListWithPrice[i].address
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <div class="i-icon-panel-wrap">
+                                                            <div class="i-icon-category"></div>
+                                                            Category		: @Model.SpaListWithPrice[i].categoryName
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <div class="i-icon-panel-wrap">
+                                                            <div class="i-icon-sub-category"></div>
+                                                            Sub Category	:  @Model.SpaListWithPrice[i].subCategoryName
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="col-xs-12">
+                                                            <div class="i-icon-panel-wrap">
+                                                                <div class="i-icon-services"></div>
+                                                                Services	:
+                                                                <p>Laser Therapy / Simply dummy text </p>
+                                                            </div>
+                                                        </div>*@
+                                                </div>
+                                            </div>
+                                            <div class="i-cust-col-5">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="i-icon-panel-wrap">
+                                                            <div class="i-icon-clock"></div>
+                                                            Open Hours
+                                                            <ul class="i-time-detail">
+                                                                @foreach (var item in @Model.SpaListWithPrice[i].spaTiming)
+                                                                {
+                                                                    <li><span class="i-day-lbl"> @item.week_day </span> @item.frm_to_times </li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="i-abt-detail-pad">
+                        <div class="row i-row-mar">
+                            <div class="col-xs-12">
+                                <div class="i-icon-panel-wrap">
+                                    <div class="i-icon-about"></div>
+                                    About
+                                    <p class="i-txt-12"> @Model.SpaListWithPrice[i].info_about </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- Repeat List Panel END -->
+
+        </div>
+    }
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                nav: true,
+                items: 1,
+                loop: true,
+                autoplay: true,
+                autoplayTimeout: 2000,
+                autoplayHoverPause: true
+            })
+        })
+    </script>
+}

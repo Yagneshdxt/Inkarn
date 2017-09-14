@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron i-home-banner text-center">
+    <div class="i-banner-form">
+        <div class="i-desk-logo-wrap">
+            <div class="i-desk-logo">nkarn</div>
+            <div class="i-slogan">Find the best prices near you</div>
+        </div>
+        @using (Html.BeginForm("Index", "Search", FormMethod.Post))
+        {
+            Html.RenderAction("SearchPanelHome", "Home");
+            <div class="form-group">
+                <button type="submit" id="searchSubmit" name="searchSubmit" value="searchSubmit" class="btn i-search-btn searchSubmit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+            </div>
+        }
+        <h1 class="i-home-tlt">Take care of yourself</h1>
+    </div>
+</div>
+<div class="container-fluid i-grey-bg">
+    <div class="container">
+    </div>
+</div>

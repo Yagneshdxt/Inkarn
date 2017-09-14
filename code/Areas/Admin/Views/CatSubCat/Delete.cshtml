@@ -1,0 +1,84 @@
+﻿@model DataAccess.CategeogySubCategory
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Category</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @if (!String.IsNullOrEmpty(@ViewBag.ParentName))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.parentId)
+            </dt>
+
+            <dd>
+                @ViewBag.ParentName
+            </dd>
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.subheading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.subheading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.created_at)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.created_at)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.updated_at)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.updated_at)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @if (!String.IsNullOrEmpty(@ViewBag.ParentName))
+            {
+                @Html.ActionLink("Back to List", "SubCategory")
+            }
+            else
+            {
+                @Html.ActionLink("Back to List", "Index")
+            }
+        </div>
+    }
+</div>

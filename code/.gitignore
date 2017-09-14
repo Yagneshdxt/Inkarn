@@ -1,0 +1,5 @@
+*.zip
+*.vs
+bin
+obj
+App_Data

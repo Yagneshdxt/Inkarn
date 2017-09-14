@@ -1,0 +1,9 @@
+*.zip
+*.vs
+bin
+obj
+*.txt
+aspnet_client
+Code/App_Data
+Code/UploadImages
+spa_db/*.dbmdl

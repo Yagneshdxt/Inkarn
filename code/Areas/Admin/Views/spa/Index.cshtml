@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DataAccess.spa_basic_info>
+
+
+<h4>SPA List</h4>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-lg" })
+</p>
+<div class="table table-responsive">
+    <table id="SpaLst">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Active/Deactive</th>
+                <th>Created Date</th>
+                <th>Updated Date</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        var theGrid = null;
+        $(document).ready(function () {
+            theGrid = $("#SpaLst").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ordering": true,
+                "responsive": false,
+                "autoWidth": false,
+                "ajax": { "url": '@Url.Action("GetSpaList", "spa")', "type": "post", "datatype": "json" },
+                "columnDefs": [
+                    {
+                        "targets": 0,
+                        "visible": true,
+                        "searchable": true,
+                        "class": "never"
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="@Url.Action("Edit", "spa")/' + row.id + '">Edit</a> | <a href="@Url.Action("Details", "spa")/' + row.id + '">Details</a> | <a href="@Url.Action("Delete", "spa")/' + row.id + '">Delete</a>';
+                        },
+                        "sortable": false,
+                        "targets": 5
+                    }
+                ],
+                "columns": [
+                       { "data": "name", "autoWidth": true },
+                       { "data": "cityName", "autoWidth": true },
+                       { "data": "isActive", "autoWidth": true },
+                       { "data": "created_at", "autoWidth": true },
+                       { "data": "updated_at", "autoWidth": true }
+                ]
+            });
+        });
+    </script>
+}

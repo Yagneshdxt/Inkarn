@@ -1,0 +1,41 @@
+﻿@model code.Models.SearchModel
+
+<div class="container i-home-form-wrap">
+    <div class="i-inside-search-form-wrap">
+        <div class="i-inside-form-wrap">
+            <div class="form-group">
+                <div class="row i-search-wrap">
+                    @*<div class="col-sm-1 i-col-pad i-bor-right">
+                        @Html.DropDownListFor(x => x.SelectedcityId, Model.cityLst, "City", new { @class = "selectpicker", title = "City" })
+                    </div>*@
+                    <div class="col-sm-2 i-col-pad i-bor-right">
+                        @Html.TextBoxFor(x => x.zipCode, new { @class = "form-control", placeholder = "Enter Zip Code", size = "50" })
+                    </div>
+                    <div class="col-sm-4 i-col-pad i-bor-right">
+                        @Html.TextBoxFor(x => x.KeyWord, new { @class = "form-control", placeholder = "Enter Your Keyword", size = "50" })
+                    </div>
+                    <div class="col-sm-2 i-col-pad i-bor-right">
+                        @Html.DropDownListFor(x => x.SelectedCateId, Model.CategoryLst, "Category", new { @class = "selectpicker searchCat", title = "Category" })
+                    </div>
+                    <div class="col-sm-2 i-col-pad i-bor-right">
+                        @Html.DropDownListFor(x => x.SelectedSubCatId, Model.SubCategoryLst, "Sub Category", new { @class = "selectpicker searchSubCat", @id = "drdwSubCat", title = "Sub Category" })
+                    </div>
+                    <div class="col-sm-1 i-col-pad">
+                        @Html.DropDownListFor(x => x.SelectedPriceId, Model.PriceLst, null, new { @class = "selectpicker", title = "Price" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="i-inside-search-btn-wrap">
+            <div class="form-group">
+                <button type="submit" id="searchSubmit" name="searchSubmit" value="searchSubmit" class="btn i-search-btn searchSubmit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+            </div>
+        </div>
+    </div>
+
+    @for (int i = 0; i < Model.nearbyZip.zip_codes.Count; i++)
+    {
+        @Html.HiddenFor(x=>x.nearbyZip.zip_codes[i])
+    }
+</div>
+

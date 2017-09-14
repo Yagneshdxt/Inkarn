@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2227246955b744e9a8dff77eb1290c2d" Name="Diagram1">
+        <EntityTypeShape EntityType="spa_dbModel.city" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="spa_dbModel.CategeogySubCategory" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="spa_dbModel.spa_basic_info" Width="1.5" PointX="0.75" PointY="3.75" />
+        <AssociationConnector Association="spa_dbModel.FK_spa_basic_info_citys" />
+        <EntityTypeShape EntityType="spa_dbModel.spa_images" Width="1.5" PointX="3" PointY="9.25" />
+        <EntityTypeShape EntityType="spa_dbModel.spa_time" Width="1.5" PointX="3" PointY="5.75" />
+        <AssociationConnector Association="spa_dbModel.FK_spa_images_spa_images" />
+        <AssociationConnector Association="spa_dbModel.FK_spa_time_spa_basic_info" />
+        <EntityTypeShape EntityType="spa_dbModel.price_range" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="spa_dbModel.spa_prices" Width="1.5" PointX="5.625" PointY="3" />
+        <AssociationConnector Association="spa_dbModel.FK_spa_prices_CategeogySubCategory" />
+        <AssociationConnector Association="spa_dbModel.FK_spa_prices_spa_basic_info" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,429 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model code.Models.SearchReasult_VM
+@{
+    ViewBag.Title = "Search";
+}
+<div class="jumbotron i-inside-banner text-center">
+    <div class="i-banner-form">
+        <div class="i-desk-logo-wrap">
+            <div class="i-desk-logo">nkarn</div>
+        </div>
+        @using (Html.BeginForm("Index", "Search", FormMethod.Post, htmlAttributes: new { @id = "SerPageSrcForm" }))
+        {
+            Html.RenderAction("SearchPanelPages", "Home", new { model = Model.SearchParam });
+            @Html.Hidden("page", "1")
+        }
+
+    </div>
+</div>
+
+<div class="container-fluid i-grey-bg">
+    <div class="container">
+        <div class="i-search-list-wrap">
+            <div class="i-search-tlt-wrap">
+                <h2 class="i-icon-page-tlt">
+                    <span class="i-tlt-icon-box i-icon-hair-removal"></span> @Model.SearchParam.CategoryName
+                    <span class="i-icon-sub-tlt"> @Model.SearchParam.cityName @Model.SearchParam.cityDescriptionName </span>
+                </h2>
+                @*<div class="i-filter-dropdown">
+                        <div class="i-filter-icon"></div>
+                        <div class="form-group">
+                            <div class="row i-search-wrap">
+                                <div class="col-xs-2 col-sm-3 i-col-pad text-right i-filter-lbl">
+                                    Nearby :
+                                </div>
+                                <div class="col-xs-4 col-sm-3 i-city-dropdown i-bor-right">
+                                    <select class="selectpicker" title="City">
+                                        <option value="" selected disabled>City</option>
+                                        <option value="1">City 1</option>
+                                        <option value="2">City 2</option>
+                                        <option value="3">City 3</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 i-col-pad text-right i-filter-lbl">
+                                    Price :
+                                </div>
+                                <div class="col-xs-4 col-sm-4 i-price-dropdown">
+                                    <select class="selectpicker" title="Price">
+                                        <option value="" selected disabled>Price</option>
+                                        <option value="1">Price 1</option>
+                                        <option value="2">Price 2</option>
+                                        <option value="3">Price 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+            <!-- Repeat List Panel START -->
+            @using (Html.BeginForm())
+            {
+                bool isGetAllPriceAdded = false;
+                if (!String.IsNullOrEmpty(ViewBag.ErrMsg))
+                {
+                    <a href="#" class="i-search-tile">
+                        <div class="i-amt-fix-panel">
+                            <div class="row i-tlt-mar">
+                                <div class="col-md-12">
+                                    <div class="">
+                                        <ul class="list-group">
+                                            @Html.Raw(@ViewBag.ErrMsg)
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                }
+
+                for (int i = 0; i < @Model.SpaListWithPrice.Count; i++)
+                {
+                    if (@Model.SpaListWithPrice[i].spa_price != null && @Model.SpaListWithPrice[i].spa_price != 0)
+                    {
+                        <a href="@Url.Action("Details","Search",new {id=Model.SpaListWithPrice[i].id, subCatid=Model.SpaListWithPrice[i].SubCatId })" class="i-search-tile">
+                            <div class="i-amt-fix-panel">
+                                <div class="row i-tlt-mar">
+                                    <div class="col-md-12">
+                                        <h3> @Model.SpaListWithPrice[i].name </h3>
+                                    </div>
+                                </div>
+                                <div class="i-amt-text text-center">
+                                    <span class="i-dollar-sign">$</span> <span class="i-amt"> @Model.SpaListWithPrice[i].spa_price </span>
+                                </div>
+                            </div>
+                            <div class="i-search-tile-info">
+                                <div class="i-search-img">
+                                    @if (!String.IsNullOrEmpty(@Model.SpaListWithPrice[i].spa_imgUrl))
+                                    {
+                                        <img src="@Url.Content(@Model.SpaListWithPrice[i].spa_imgUrl)" />
+                                    }
+                                    else
+                                    {
+                                        <img src="" />
+                                    }
+                                </div>
+                                <div class="i-search-info">
+                                    <div class="i-info-wrap">
+                                        <div class="row i-row-mar">
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-map"></div>
+                                                    @Model.SpaListWithPrice[i].address
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-services"></div>
+                                                    <p class="i-note-txt">
+                                                        @Model.SpaListWithPrice[i].contact_no
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row i-row-mar">
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-category"></div>
+                                                    <p> @Model.SpaListWithPrice[i].categoryName </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-3">
+                                                        <div class="i-icon-panel-wrap">
+                                                            <div class="i-icon-sub-category"></div>
+                                                            <p>@Model.SpaListWithPrice[i].subCategoryName</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-9">
+                                                        @*<div class="i-icon-panel-wrap">
+                                                                <div class="i-icon-services"></div>
+                                                                Services :
+                                                                    <p>Laser Therapy / Simply dummy text </p>
+                                                            </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row i-row-mar">
+                                            <div class="col-xs-7">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-about"></div>
+                                                    About
+                                                    <p class="">
+                                                        @Model.SpaListWithPrice[i].info_about
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                }
+                for (int i = 0; i < @Model.SpaListWithPrice.Count; i++)
+                {
+                    if (@Model.SpaListWithPrice[i].spa_price == null || @Model.SpaListWithPrice[i].spa_price == 0)
+                    {
+
+                        if (!isGetAllPriceAdded)
+                        {
+                            <a href="javascript:void(0);" class="i-highlight-panel text-center" data-toggle="modal" data-target="#myModal">
+                                <div class="i-ani-arrow-wrap">
+                                    Get Price For All SPA’s
+                                    <div class="i-arrow-ani">
+                                        <svg width="18px" height="17px" viewBox="-1 0 18 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g>
+                                                <polygon class="arrow" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon>
+                                                <polygon class="arrow-fixed" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+                            isGetAllPriceAdded = true;
+                        }
+                        @Html.HiddenFor(x => x.SpaListWithPrice[i].id, new { @class = "HdnGetPriceSpaId" });
+                        <a href="@Url.Action("Details","Search",new {id=Model.SpaListWithPrice[i].id, subCatid=Model.SpaListWithPrice[i].SubCatId })" class="i-search-tile">
+                            <div class="i-amt-fix-panel">
+                                <div class="row i-tlt-mar">
+                                    <div class="col-md-12">
+                                        <h3> @Model.SpaListWithPrice[i].name </h3>
+                                    </div>
+                                </div>
+                                @*<div class="i-amt-text text-center">
+                                        <span class="i-dollar-sign">$</span> <span class="i-amt"> @Model.SpaListWithPrice[i].spa_price </span>
+                                    </div>*@
+                            </div>
+                            <div class="i-search-tile-info">
+                                <div class="i-search-img">
+                                    @if (!String.IsNullOrEmpty(@Model.SpaListWithPrice[i].spa_imgUrl))
+                                    {
+                                        <img src="@Url.Content(@Model.SpaListWithPrice[i].spa_imgUrl)" />
+                                    }
+                                    else
+                                    {
+                                        <img src="" />
+                                    }
+                                </div>
+                                <div class="i-search-info">
+                                    <div class="i-info-wrap">
+                                        <div class="row i-row-mar">
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-map"></div>
+                                                    @Model.SpaListWithPrice[i].address
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-services"></div>
+                                                    <p class="i-note-txt">
+                                                        @Model.SpaListWithPrice[i].contact_no
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row i-row-mar">
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-category"></div>
+                                                    <p> @Model.SpaListWithPrice[i].categoryName </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-3">
+                                                        <div class="i-icon-panel-wrap">
+                                                            <div class="i-icon-sub-category"></div>
+                                                            <p>@Model.SpaListWithPrice[i].subCategoryName</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-9">
+                                                        @*<div class="i-icon-panel-wrap">
+                                                                <div class="i-icon-services"></div>
+                                                                Services :
+                                                                    <p>Laser Therapy / Simply dummy text </p>
+                                                            </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row i-row-mar">
+                                            <div class="col-xs-7">
+                                                <div class="i-icon-panel-wrap">
+                                                    <div class="i-icon-about"></div>
+                                                    About
+                                                    <p class="">
+                                                        @Model.SpaListWithPrice[i].info_about
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form id="getPriceSpa" method="post" action="#">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Get Prices</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Request will be sent to @Model.TotalSpaForPriceReq spa</p>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="Name" class="control-label col-md-2">Name</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="name" id="name" value="" required="required" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="Email" class="control-label col-md-2">Email</label>
+                                <div class="col-md-10">
+                                    <input type="email" name="Email" id="Email" value="" required="required" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="Bname" class="control-label col-md-2">Bussiness Name</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="Bname" id="Bname" value="" required="required" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="Phone " class="control-label col-md-2">Phone</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="Phone" id="Phone" value="" required="required" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="Address " class="control-label col-md-2">Address</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="Address" id="Address" value="" required="required" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="ContactTime" class="control-label col-md-2">Contact Time</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="ContactTime" id="ContactTime" value="" required="required" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="PreferToContactBy" class="control-label col-md-2">Prefer to contact by </label>
+                                <div class="col-md-10">
+                                    <input type="radio" name="PreferToContactBy" id="PreferToContactBy" value="Email" required />  Email
+                                    <input type="radio" name="PreferToContactBy" id="PreferToContactBy" value="Phone" required />  Phone
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="ContactTime" class="control-label col-md-2">Contact Time</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="message" id="message" value="" required="required" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.HiddenFor(x => x.SpaIdForPriceReq)
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" id="getPriceSubmit" class="btn btn-default">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="container text-center" id="Dvpagenation">
+        @{ List<string> UIclss = new List<string>(); UIclss.Add("pagination"); UIclss.Add("pagination-lg"); }
+        @Html.PagedListPager(@Model.SpaListWithPrice, page => Url.Action("Index", new { page }), new PagedListRenderOptions { UlElementClasses = UIclss, LinkToPreviousPageFormat = "PREVIOUS", LinkToNextPageFormat = "NEXT", DisplayLinkToNextPage = PagedListDisplayMode.Always, DisplayLinkToPreviousPage = PagedListDisplayMode.Always, FunctionToTransformEachPageLink = (liTag, aTag) => code.Controllers.SearchController.createanchorTag(liTag, aTag) })
+        @*(liTag, aTag) => { aTag.Attributes.Add("data-page-no", aTag.InnerHtml); liTag.InnerHtml = aTag.ToString(); return liTag; }*@
+    </div>
+
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Dvpagenation ul li a").click(function (e) {
+                e.preventDefault();
+                $("#page").val("0");
+                if ($(this).data("page-no") == "PREVIOUS") {
+                    $("#page").val("1");
+                    $("#SerPageSrcForm").submit();
+                }
+                if (!isNaN($(this).data("page-no"))) {
+                    $("#page").val($(this).data("page-no"));
+                    $("#SerPageSrcForm").submit();
+                }
+            });
+            $("#myModal").on('show.bs.modal', function () {
+                $("getPriceSubmit").removeAttr('disabled');
+            });
+            $("#getPriceSubmit").click(function (e) {
+                $("getPriceSubmit").attr('disabled', 'disabled');
+                if ($("#name").val() == '' || ($("#Email").val() == '' || $("#Phone").val() == '')) {
+                    alert('Please fill in complete details');
+                    return false;
+                }
+                $.post('@Url.Action("getPriceMail","Search")', $('#getPriceSpa').serializeArray(), function (data) {
+                    console.log(data);
+                    $("#getPriceSpa input").val('');
+                    $("#getPriceSpa input[type='radio']").removeAttr('checked');
+                    $("#myModal .close").click();
+                    alert("Mail has been proceed successfully.");
+                });
+            });
+            $("#getPriceSpa").submit(function (e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+}
+@section stylesSection{
+    <style type="text/css">
+        .modal {
+            text-align: center;
+        }
+
+        @@media screen and (min-width: 768px) {
+            .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+    </style>
+}

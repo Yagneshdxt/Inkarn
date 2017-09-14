@@ -1,0 +1,153 @@
+﻿@model DataAccess.spa_VM
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<div class="container">
+    @using (Html.BeginForm("Create", "spa", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Add Category</h4>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.basic_info.name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.basic_info.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.cityId, "City", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.basic_info.cityId, (SelectList)ViewBag.citylst, "Select city", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.basic_info.cityId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.address, "Address", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.basic_info.address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.basic_info.address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.zipcode, "ZipCode", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.basic_info.zipcode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.basic_info.zipcode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.info_about, "About", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(x => x.basic_info.info_about, 10, 10, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.basic_info.info_about, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.contact_name, "Contact Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(x => x.basic_info.contact_name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.basic_info.contact_name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.contact_email, "Contact Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(x => x.basic_info.contact_email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.basic_info.contact_email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.contact_no, "Contact Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(x => x.basic_info.contact_no, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.basic_info.contact_no, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.categoryLst, "Category List", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <ul class="list-inline" id="categoryList">
+                        @for (int i = 0; i < Model.categoryLst.Count; i++)
+                        {
+                            <li class="list-inline-item">
+                                <label class="checkbox-inline">
+                                    @Html.HiddenFor(x => x.categoryLst[i].Id)
+                                    @Html.CheckBoxFor(x => x.categoryLst[i].isChecked)
+                                    @Html.LabelFor(a => Model.categoryLst[i].name, Model.categoryLst[i].name)
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    @Html.ValidationMessageFor(model => model.categoryLst, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Price List", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" id="divCatPrice">
+                    @{ Html.RenderPartial("subcatePrice", Model); }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Browse file", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" multiple id="browseImages" name="spaImageFiles" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Timings", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @for (int i = 0; i < Model.timings.Count; i++)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.Label(Model.timings[i].week_day, new { @class = "control-label col-md-2" })
+                                @Html.HiddenFor(x => x.timings[i].week_day)
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(x => x.timings[i].frm_to_times, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.basic_info.contact_no, "is Active", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(x => x.basic_info.is_active)
+                    @Html.ValidationMessageFor(model => model.basic_info.is_active, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-default"> Submit </button>
+                </div>
+            </div>
+            @Html.HiddenFor(x=>x.basic_info.id)
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+  }
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#categoryList input[type='checkbox']").change(function () {
+                var seleCate = $("#categoryList input[type='checkbox']:checked").map(function () {
+                    return $(this).closest("label.checkbox-inline").find("input[type='hidden'][id$='__Id']").val()
+                }).get();
+                if (seleCate.length <= 0) {
+                    $("#divCatPrice").html('');
+                    return;
+                }
+                $.post('@Url.Action("GetSubCategory")', { 'cat_id': seleCate, 'spa_id': isNaN(parseInt($("#basic_info_id").val())) ? 0 : parseInt($("#basic_info_id").val()) }, function (result) {
+                    $("#divCatPrice").html(result);
+                });
+
+            });
+        })
+    </script>
+}

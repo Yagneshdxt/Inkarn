@@ -1,0 +1,52 @@
+@font-face {
+	font-family: 'biko-regular';
+	src:url('../fonts/Biko-Regular.eot');
+	src:url('../fonts/Biko-Regular.woff') format('woff'), 
+		url('../fonts/Biko-Regular.ttf') format('truetype'), 
+		url('../fonts/Biko-Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'pristina-regular';
+	src:url('../fonts/Pristina-Regular.eot');
+	src:url('../fonts/Pristina-Regular.woff') format('woff'), 
+		url('../fonts/Pristina-Regular.ttf') format('truetype'), 
+		url('../fonts/Pristina-Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'myriadPro-regular';
+	src:url('../fonts/MyriadPro-Regular.eot');
+	src:url('../fonts/MyriadPro-Regular.woff') format('woff'), 
+		url('../fonts/MyriadPro-Regular.ttf') format('truetype'), 
+		url('../fonts/MyriadPro-Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'myriadPro-bold';
+	src:url('../fonts/MyriadPro-Bold.eot');
+	src:url('../fonts/MyriadPro-Bold.woff') format('woff'), 
+		url('../fonts/MyriadPro-Bold.ttf') format('truetype'), 
+		url('../fonts/MyriadPro-Bold.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'adam-gorry-lights';
+	src:url('../fonts/Adam-Gorry-Lights.eot');
+	src:url('../fonts/Adam-Gorry-Lights.woff') format('woff'), 
+		url('../fonts/Adam-Gorry-Lights.ttf') format('truetype'), 
+		url('../fonts/Adam-Gorry-Lights.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
